@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
+  const [data, setData ] = useState(null);
+  const fetchURL = 'https://mhw-db.com'
+  const getData = () => 
+  fetch(`${fetchURL}/monsters`)
+  .then((res) => res.json())
+
+  useEffect(() => {
+    getData().then((data) => setData(data))
+    }, [])
+   
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ul>
+      {data?.map( item => (
+        <li>
+          <h3>{item.name}</h3>
+          <h4>{item.species}</h4>
+          <p>{item.description}</p>
+        </li>
+      ))}
+    </ul>
   );
 }
 
